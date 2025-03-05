@@ -18,19 +18,27 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
         }
         input, button {
-            width: 100%;
+            width: calc(100% - 20px);
             padding: 10px;
-            margin: 10px 0;
+            margin: 5px 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            display: block;
         }
         button {
             background: #007bff;
             color: white;
             border: none;
             cursor: pointer;
+            text-align: center;
         }
         button:hover {
             background: #0056b3;
@@ -38,6 +46,10 @@
         .result {
             font-size: 18px;
             margin-top: 10px;
+        }
+        .example {
+            font-size: 12px;
+            color: #555;
         }
     </style>
 </head>
@@ -48,7 +60,12 @@
         <input type="number" id="voltage" placeholder="예: 220">
         
         <label>전류(A):</label>
-        <input type="number" id="current" placeholder="예: 5">
+        <input type="number" id="current" placeholder="예: 1.5 (예: 핸드폰 충전기 1.5A)">
+        <div class="example">💡 일반 가전 전류 예시:<br>
+        - 핸드폰 충전기: 1.5A<br>
+        - 노트북 어댑터: 3A<br>
+        - 에어컨: 7A~12A<br>
+        - 전자레인지: 10A~15A</div>
         
         <label>하루 사용 시간(h):</label>
         <input type="number" id="hours" placeholder="예: 4">
