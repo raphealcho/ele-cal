@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전기요금 계산기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>전기요금 계산기</h2>
+        <label>전압(V):</label>
+        <input type="number" id="voltage" placeholder="예: 220">
+        
+        <label>전류(A):</label>
+        <input type="number" id="current" placeholder="예: 5">
+        
+        <label>하루 사용 시간(h):</label>
+        <input type="number" id="hours" placeholder="예: 4">
+        
+        <button onclick="startCountdown()">계산하기</button>
+        
+        <div class="result" id="result"></div>
+    </div>
+    
+    <script>
+        function startCountdown() {
+            let countdown = 3;
+            document.getElementById("result").innerHTML = `계산 중... ${countdown}초`;
+            
+            let timer = setInterval(() => {
+                countdown--;
+                document.getElementById("result").innerHTML = `계산 중... ${countdown}초`;
+                
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    calculateElectricityCost();
+                }
+            }, 1000);
+        }
+
+        function calculateElectricityCost() {
+            let voltage = parseFloat(document.getElementById("voltage").value);
+            let current = parseFloat(document.getElementById("current").value);
+            let hours = parseFloat(document.getElementById("hours").value);
+
+            if (isNaN(voltage) || isNaN(current) || isNaN(hours)) {
+                document.getElementById("result").innerHTML = "모든 값을 입력해주세요.";
+                return;
+            }
+            
+            let power = voltage * current; // W (소비 전력)
+            let dailyConsumption = (power * hours) / 1000; // kWh
+            let monthlyConsumption = dailyConsumption * 30; // kWh
+            
+            let costPerKWh = 140; // kWh당 140원 기준 (대략적인 한국 전기요금)
+            let monthlyCost = monthlyConsumption * costPerKWh;
+            
+            document.getElementById("result").innerHTML = 
+                `소비 전력: <b>${power}W</b><br>
+                일일 소비량: <b>${dailyConsumption.toFixed(2)} kWh</b><br>
+                월간 소비량: <b>${monthlyConsumption.toFixed(2)} kWh</b><br>
+                예상 전기요금: <b>${monthlyCost.toFixed(0)} 원</b><br>
+                <a href="https://msearch.shopping.naver.com/search/all?adQuery=%EB%88%84%EC%84%A4%EC%A0%84%EB%A5%98%EA%B3%84%20%EC%B8%A1%EC%A0%95%EA%B8%B0&maxPrice=59500&minPrice=59000&origQuery=%EB%88%84%EC%84%A4%EC%A0%84%EB%A5%98%EA%B3%84%20%EC%B8%A1%EC%A0%95%EA%B8%B0&pagingIndex=1&pagingSize=40&productSet=total&query=%EB%88%84%EC%84%A4%EC%A0%84%EB%A5%98%EA%B3%84%20%EC%B8%A1%EC%A0%95%EA%B8%B0&sort=rel&viewType=list" target="_blank">누설전류계 검색하기</a>`;
+        }
+    </script>
+</body>
+</html>
